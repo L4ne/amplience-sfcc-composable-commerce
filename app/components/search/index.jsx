@@ -29,7 +29,7 @@ import debounce from 'lodash/debounce'
 import {RECENT_SEARCH_KEY, RECENT_SEARCH_LIMIT, RECENT_SEARCH_MIN_LENGTH} from '../../constants'
 import {productUrlBuilder, searchUrlBuilder, categoryUrlBuilder} from '../../utils/url'
 
-const formatSuggestions = (searchSuggestions, input, pages) => {
+const formatSuggestions = (searchSuggestions, input) => {
     return {
         customSuggestions: searchSuggestions?.customSuggestions?.customSuggestions?.map(
             (suggestion) => {
@@ -89,9 +89,9 @@ const Search = (props) => {
     const recentSearches = getSessionJSONItem(RECENT_SEARCH_KEY)
     const searchSuggestions = formatSuggestions(
         searchSuggestion.results,
-        searchInputRef?.current?.value,
-        searchSuggestion.allPages
+        searchInputRef?.current?.value
     )
+    console.log("SEARCH SUGGESTIONS:", searchSuggestion.results)
 
     // check if popover should open if we have suggestions
     useEffect(() => {
@@ -108,8 +108,8 @@ const Search = (props) => {
     const searchSuggestionsAvailable =
         searchSuggestions &&
         (searchSuggestions?.categorySuggestions?.length 
-            || searchSuggestions?.customSuggestions?.length
-            || searchSuggestions?.phraseSuggestions?.length)
+            || searchSuggestions?.productSuggestions?.length
+            || searchSuggestions?.customSuggestions?.length)
 
     const saveRecentSearch = (searchText) => {
         // Get recent searches or an empty array if undefined.

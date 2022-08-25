@@ -20,9 +20,9 @@ const SearchSuggestions = ({recentSearches, searchSuggestions, closeAndNavigate}
             {useSuggestions ? (
                 <Fragment>
                     {
-                        searchSuggestions?.categorySuggestions?.length &&
+                        searchSuggestions?.categorySuggestions?.length > 0 &&
                         <>
-                            <b>CATEGORIES</b>
+                            {/* <b>CATEGORIES</b> */}
                             <Suggestions
                                 closeAndNavigate={closeAndNavigate}
                                 suggestions={searchSuggestions?.categorySuggestions}
@@ -30,14 +30,9 @@ const SearchSuggestions = ({recentSearches, searchSuggestions, closeAndNavigate}
                         </>
                     }
                     {
-                        searchSuggestions?.categorySuggestions?.length &&
-                        searchSuggestions?.customSuggestions?.length &&
-                        <hr style={{marginTop: 10, marginBottom: 10}}/>
-                    }
-                    {
                         searchSuggestions?.productSuggestions?.length &&
                         <>
-                            <b>PRODUCTS</b>
+                            {/* <b>PRODUCTS</b> */}
                             <Suggestions
                                 closeAndNavigate={closeAndNavigate}
                                 suggestions={searchSuggestions?.productSuggestions}
@@ -45,14 +40,9 @@ const SearchSuggestions = ({recentSearches, searchSuggestions, closeAndNavigate}
                         </>
                     }
                     {
-                        searchSuggestions?.productSuggestions?.length &&
-                        searchSuggestions?.customSuggestions?.length &&
-                        <hr style={{marginTop: 10, marginBottom: 10}}/>
-                    }
-                    {
-                        searchSuggestions?.customSuggestions?.length &&
+                        searchSuggestions?.customSuggestions?.length > 0 &&
                         <>
-                            <b>PAGES</b>
+                            {/* <b>PAGES</b> */}
                             <Suggestions
                                 closeAndNavigate={closeAndNavigate}
                                 suggestions={searchSuggestions?.customSuggestions}

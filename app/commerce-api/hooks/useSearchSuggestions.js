@@ -5,6 +5,7 @@
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 import {useState, useContext} from 'react'
+import {useIntl} from 'react-intl'
 import {useCommerceAPI} from '../contexts'
 import {AmplienceContext} from '../../contexts/amplience'
 
@@ -13,10 +14,9 @@ import {AmplienceContext} from '../../contexts/amplience'
  */
 const useSearchSuggestions = () => {
     const api = useCommerceAPI()
+    const {locale} = useIntl()
     const {client} = useContext(AmplienceContext)
     const [state, setState] = useState({results: {}})
-    const [allPages, setAllPages] = useState([])
-    console.log("ALL PAGES:", allPages)
     return {
         ...state,
         /**
@@ -31,31 +31,35 @@ const useSearchSuggestions = () => {
                     q: input
                 }
             })
-            const allPagesResult = await client.getContentPages()
-            setAllPages(allPagesResult)
 
-            const customSuggestions = allPagesResult.map(content => {
-                return {
-                    id: "faq",
-                    name: "Faq",
-                    link: "/page/faq"
-                }
-            })
-
-            searchSuggestions.customSuggestions = {
-                customSuggestions:[
-                    {
-                        id: "faq",
-                        name: "Faq",
-                        link: "/page/faq"
-                    },
-                    {
-                        id: "faq2",
-                        name: "Faq 2",
-                        link: "/page/faq"
+            // Filter Amplience pages
+            const allPages = await client.getContentPages()
+            const pageSuggestions = allPages
+                .filter(item => {
+                    const titles = item.content?.seo?.title?.values
+                    const title = titles.filter(text => text.locale == locale)[0]
+                    if (title) {
+                        return title.value.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    } else {
+                        return false
                     }
-                ]
+                })
+                .map(item => {
+                    const titles = item.content?.seo?.title?.values
+                    const title = titles.filter(text => text.locale == locale)[0]
+                    return {
+                        id: item.content?._meta?.deliveryKey,
+                        name: title.value,
+                        link: `/page/${item.content?._meta?.deliveryKey}`
+
+                    }
+                })
+
+            // Add Amplience pages as custom suggestions
+            searchSuggestions.customSuggestions = {
+                customSuggestions: pageSuggestions
             }
+
             setState({results: searchSuggestions})
         },
         /**

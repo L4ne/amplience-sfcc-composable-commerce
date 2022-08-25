@@ -204,7 +204,7 @@ export class AmplienceAPI {
             .filterByContentType('https://sfcc.com/site/pages/content-page')
             .request()
 
-        return result?.responses
+        return result.responses
     }
 }
 
