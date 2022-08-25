@@ -196,6 +196,16 @@ export class AmplienceAPI {
 
         return root
     }
+
+    async getContentPages() {
+        await this.clientReady
+        
+        const result = await this.client
+            .filterByContentType('https://sfcc.com/site/navigation/content-page')
+            .request()
+
+        return result
+    }
 }
 
 export const defaultAmpClient = new AmplienceAPI()

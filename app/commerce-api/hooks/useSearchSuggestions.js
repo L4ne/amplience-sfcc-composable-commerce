@@ -29,8 +29,8 @@ const useSearchSuggestions = () => {
                     q: input
                 }
             })
-            const customSuggestions = await client.getContentPages()
-            console.log("CUSTOM: ", customSuggestions)
+            const allPages = await client.getContentPages()
+            console.log("CUSTOM: ", allPages)
             searchSuggestions.customSuggestions = {
                 customSuggestions:[
                     {
