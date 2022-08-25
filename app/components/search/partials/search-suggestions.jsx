@@ -11,15 +11,54 @@ import RecentSearches from './recent-searches'
 import Suggestions from './suggestions'
 
 const SearchSuggestions = ({recentSearches, searchSuggestions, closeAndNavigate}) => {
-    const useSuggestions = searchSuggestions && searchSuggestions?.categorySuggestions?.length
+    const useSuggestions = searchSuggestions 
+        && ( searchSuggestions?.categorySuggestions?.length > 0 
+            || searchSuggestions?.productSuggestions?.length > 0 
+            || searchSuggestions?.customSuggestions?.length > 0)
     return (
         <Stack padding={6} spacing={0}>
             {useSuggestions ? (
                 <Fragment>
-                    <Suggestions
-                        closeAndNavigate={closeAndNavigate}
-                        suggestions={searchSuggestions?.categorySuggestions}
-                    />
+                    {
+                        searchSuggestions?.categorySuggestions?.length &&
+                        <>
+                            <b>CATEGORIES</b>
+                            <Suggestions
+                                closeAndNavigate={closeAndNavigate}
+                                suggestions={searchSuggestions?.categorySuggestions}
+                            />
+                        </>
+                    }
+                    {
+                        searchSuggestions?.categorySuggestions?.length &&
+                        searchSuggestions?.customSuggestions?.length &&
+                        <hr style={{marginTop: 10, marginBottom: 10}}/>
+                    }
+                    {
+                        searchSuggestions?.productSuggestions?.length &&
+                        <>
+                            <b>PRODUCTS</b>
+                            <Suggestions
+                                closeAndNavigate={closeAndNavigate}
+                                suggestions={searchSuggestions?.productSuggestions}
+                            />
+                        </>
+                    }
+                    {
+                        searchSuggestions?.productSuggestions?.length &&
+                        searchSuggestions?.customSuggestions?.length &&
+                        <hr style={{marginTop: 10, marginBottom: 10}}/>
+                    }
+                    {
+                        searchSuggestions?.customSuggestions?.length &&
+                        <>
+                            <b>PAGES</b>
+                            <Suggestions
+                                closeAndNavigate={closeAndNavigate}
+                                suggestions={searchSuggestions?.customSuggestions}
+                            />
+                        </>
+                    }
                     {/* <Suggestions
                         closeAndNavigate={closeAndNavigate}
                         suggestions={searchSuggestions?.phraseSuggestions}

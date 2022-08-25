@@ -31,6 +31,16 @@ import {productUrlBuilder, searchUrlBuilder, categoryUrlBuilder} from '../../uti
 
 const formatSuggestions = (searchSuggestions, input) => {
     return {
+        customSuggestions: searchSuggestions?.customSuggestions?.customSuggestions?.map(
+            (suggestion) => {
+                return {
+                    type: 'custom',
+                    id: suggestion.id,
+                    link: suggestion.link,
+                    name: boldString(suggestion.name, capitalize(input))
+                }
+            }
+        ),
         categorySuggestions: searchSuggestions?.categorySuggestions?.categories?.map(
             (suggestion) => {
                 return {
@@ -96,8 +106,9 @@ const Search = (props) => {
 
     const searchSuggestionsAvailable =
         searchSuggestions &&
-        (searchSuggestions?.categorySuggestions?.length ||
-            searchSuggestions?.phraseSuggestions?.length)
+        (searchSuggestions?.categorySuggestions?.length 
+            || searchSuggestions?.customSuggestions?.length
+            || searchSuggestions?.phraseSuggestions?.length)
 
     const saveRecentSearch = (searchText) => {
         // Get recent searches or an empty array if undefined.

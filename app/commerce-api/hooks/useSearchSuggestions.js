@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {useCommerceAPI} from '../contexts'
+import {AmplienceContext} from '../../contexts/amplience'
 
 /**
  * Hook for retrieving and managing state of Search Suggestions
  */
 const useSearchSuggestions = () => {
     const api = useCommerceAPI()
+    const {client} = useContext(AmplienceContext)
     const [state, setState] = useState({results: {}})
     return {
         ...state,
@@ -27,6 +29,22 @@ const useSearchSuggestions = () => {
                     q: input
                 }
             })
+            const customSuggestions = await client.getContentPages()
+            console.log("CUSTOM: ", customSuggestions)
+            searchSuggestions.customSuggestions = {
+                customSuggestions:[
+                    {
+                        id: "faq",
+                        name: "Faq",
+                        link: "/page/faq"
+                    },
+                    {
+                        id: "faq2",
+                        name: "Faq 2",
+                        link: "/page/faq"
+                    }
+                ]
+            }
             setState({results: searchSuggestions})
         },
         /**
