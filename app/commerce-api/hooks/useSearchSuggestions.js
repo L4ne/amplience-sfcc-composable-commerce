@@ -15,6 +15,8 @@ const useSearchSuggestions = () => {
     const api = useCommerceAPI()
     const {client} = useContext(AmplienceContext)
     const [state, setState] = useState({results: {}})
+    const [allPages, setAllPages] = useState([])
+    console.log("ALL PAGES:", allPages)
     return {
         ...state,
         /**
@@ -29,8 +31,17 @@ const useSearchSuggestions = () => {
                     q: input
                 }
             })
-            const allPages = await client.getContentPages()
-            console.log("CUSTOM: ", allPages)
+            const allPagesResult = await client.getContentPages()
+            setAllPages(allPagesResult)
+
+            const customSuggestions = allPagesResult.map(content => {
+                return {
+                    id: "faq",
+                    name: "Faq",
+                    link: "/page/faq"
+                }
+            })
+
             searchSuggestions.customSuggestions = {
                 customSuggestions:[
                     {

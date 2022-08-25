@@ -29,7 +29,7 @@ import debounce from 'lodash/debounce'
 import {RECENT_SEARCH_KEY, RECENT_SEARCH_LIMIT, RECENT_SEARCH_MIN_LENGTH} from '../../constants'
 import {productUrlBuilder, searchUrlBuilder, categoryUrlBuilder} from '../../utils/url'
 
-const formatSuggestions = (searchSuggestions, input) => {
+const formatSuggestions = (searchSuggestions, input, pages) => {
     return {
         customSuggestions: searchSuggestions?.customSuggestions?.customSuggestions?.map(
             (suggestion) => {
@@ -89,7 +89,8 @@ const Search = (props) => {
     const recentSearches = getSessionJSONItem(RECENT_SEARCH_KEY)
     const searchSuggestions = formatSuggestions(
         searchSuggestion.results,
-        searchInputRef?.current?.value
+        searchInputRef?.current?.value,
+        searchSuggestion.allPages
     )
 
     // check if popover should open if we have suggestions

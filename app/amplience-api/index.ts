@@ -201,10 +201,10 @@ export class AmplienceAPI {
         await this.clientReady
         
         const result = await this.client
-            .filterByContentType('https://sfcc.com/site/navigation/content-page')
+            .filterByContentType('https://sfcc.com/site/pages/content-page')
             .request()
 
-        return result
+        return result?.responses
     }
 }
 
