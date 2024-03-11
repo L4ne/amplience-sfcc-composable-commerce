@@ -1,6 +1,6 @@
 module.exports = {
     default: {
-        hub: 'sfcccomposable'
+        hub: 'sfccdemo06'
     },
     envs: [
         /*
@@ -19,13 +19,13 @@ module.exports = {
     visualisations: [
         {
             name: 'Localhost',
-            default: true,
+            default: false,
             url: 'http://localhost:3000'
         },
         {
             name: 'Production',
-            default: false,
-            url: 'https://ascc-production.mobify-storefront.com'
+            default: true,
+            url: 'https://amplience-06-production.mobify-storefront.com'
         }
         /*,
         {
